@@ -1,0 +1,82 @@
+{% extends 'sns/layout.html' %}
+
+{% block title %}分析{% endblock %}
+
+{% block header %}
+<h1 class="display-4">分析</h1>
+
+{% endblock %}
+
+{% block content %}
+<body class="container">
+    <h1 class="display-4">
+        {{title}}</h1>
+    <p>{{message|safe}}</p>
+    <table class="table">
+        <tr>
+            <th>メンバー名</th>
+            <th>投稿</th>
+        </tr>
+    {% for item in menbers %}
+        <tr>
+            <td>{{item.name}}</td>
+            <td><ul>
+                {% for ct in categorys %}
+                    <li>{{ct}} 投稿数:{{ct.posts.all|length}}件 平均評価:{{ct.avg_review}}</li>
+                {% endfor %}
+                </ul></td>
+            <tr>
+    {% endfor %}
+    </table>
+    <ul class="pagination justify-content-center">
+        {% if data.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="{% url 'index' %}">
+                &laquo; first</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" 
+            href="{% url 'index' %}{{data.previous_page_number}}">
+                &laquo; prev</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link">&laquo; first</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link">&laquo; prev</a>
+        </li>
+        {% endif %}
+        <li class="page-item">
+            <a class="page-link">
+            {{data.number}}/{{data.paginator.num_pages}}</a>
+        </li>
+        {% if data.has_next %}
+        <li class="page-item">
+            <a class="page-link" 
+            href="{% url 'index' %}{{data.next_page_number }}">
+                next &raquo;</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" 
+            href="{% url 'index' %}{{data.paginator.num_pages}}">
+                last &raquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link">next &raquo;</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link">last &raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
+</body>
+
+{% endblock %}
+
+{% for value in values %}
+  {{ value }}
+{% endfor %}
+{{text}}
+
